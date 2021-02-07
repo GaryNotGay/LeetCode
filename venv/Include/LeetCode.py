@@ -7,20 +7,12 @@ class Solution:
     # 2021-02-07 https://leetcode-cn.com/problems/non-decreasing-array/
     def checkPossibility(self, nums: List[int]) -> bool:
         count = 0
-        stack = [nums[-1]]
-        n = len(nums)
-        for i in range(n - 2, -1, -1):
-            if (nums[i] <= stack[-1]):
-                stack.append(nums[i])
-            else:
-                stack.append(stack[-1])
+        for i in range(1, len(nums)):
+            if nums[i] < nums[i - 1]:
                 count += 1
-        count2 = 0
-        stack = [nums[0]]
-        for i in range(1, n):
-            if (nums[i] >= stack[-1]):
-                stack.append(nums[i])
-            else:
-                stack.append(stack[-1])
-                count2 += 1
-        return min(count, count2) <= 1
+                if i + 1 < len(nums) and i - 2 >= 0:
+                    if nums[i + 1] < nums[i - 1] and nums[i - 2] > nums[i]:
+                        return False
+            if count > 1:
+                return False
+        return True
