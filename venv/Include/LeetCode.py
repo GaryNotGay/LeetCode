@@ -16,3 +16,28 @@ class Solution:
             if count > 1:
                 return False
         return True
+
+    # 2021-02-08 https://leetcode-cn.com/problems/longest-turbulent-subarray/
+    def maxTurbulenceSize(self, arr: List[int]) -> int:
+        n = len(arr)
+        if n <= 1:
+            return n
+        if n == 2:
+            if arr[0] == arr[1]:
+                return 1
+            return n
+        count, r = 0, 0
+        if arr[0] == arr[1]:
+            count = 1
+        else:
+            count = 2
+        for i in range(2, n):
+            if arr[i - 2] > arr[i - 1] < arr[i] or arr[i - 2] < arr[i - 1] > arr[i]:
+                count += 1
+            else:
+                if arr[i - 1] == arr[i]:
+                    count = 1
+                else:
+                    count = 2
+            r = max(count, r)
+        return r
