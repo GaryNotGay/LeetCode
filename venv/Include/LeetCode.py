@@ -41,3 +41,24 @@ class Solution:
                     count = 2
             r = max(count, r)
         return r
+
+    # 2021-02-09 https://leetcode-cn.com/problems/subarrays-with-k-different-integers/
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        def atMostKDistinct(K):
+            n = len(A)
+            freq = [0] * (n + 1)
+            ans, count = 0, 0
+            left = right = 0
+            while right < n:
+                if freq[A[right]] == 0:
+                    count += 1
+                freq[A[right]] += 1
+                right += 1
+                while count > K:
+                    freq[A[left]] -= 1
+                    if freq[A[left]] == 0:
+                        count -= 1
+                    left += 1
+                ans += right - left
+            return ans
+        return atMostKDistinct(K) - atMostKDistinct(K - 1)
